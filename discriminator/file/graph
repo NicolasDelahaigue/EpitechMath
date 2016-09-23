@@ -1,0 +1,30 @@
+#! /usr/bin/python3.4
+
+__author__ = 'nicolas'
+
+from sys import stdin
+from re import compile
+from matplotlib.pyplot import plot, show
+# from pylab import plot, show
+
+
+def parse():
+    va = []
+    ls = []
+    for line in stdin:
+        print(line[:-1])
+        p = compile("^(([+-]?\d+(\.\d+)?){1}[;]{1}([+-]?\d+(\.\d+)?){1}){1}")
+        if p.match(line[:-1]):
+            ret = p.findall(line[:-1])
+            va.append(ret[0][1])
+            ls.append(ret[0][3])
+    return va, ls
+
+if __name__ == "__main__":
+    vac, lst = parse()
+    if len(vac) == 0 or len(lst) == 0:
+        exit(84)
+    x = vac
+    y = lst
+    plot(x, y, 'ro')
+    show()

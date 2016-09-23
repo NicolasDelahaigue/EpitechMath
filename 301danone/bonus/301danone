@@ -1,0 +1,68 @@
+#! /usr/bin/python3.4
+
+__author__ = 'kevin et nicolas <3'
+
+import algo
+import var
+import sys
+from decimal import Decimal
+from docopt import docopt
+
+
+def read_list(file):
+    try:
+        ret = []
+        with open(file) as data:
+            for d in data:
+                for e in d.split(' '):
+                    if len(e) > 0:
+                        try:
+                            ret.append(Decimal(e))
+                        except:
+                            pass
+        return ret
+    except Exception as ex:
+        print(ex.args, file=sys.stderr)
+        exit(1)
+
+
+tag = """
+
+Usage:
+    301danone <file> [-t] [-f] [sort <name>...]
+
+Options:
+    -h --help   affiche cette aide
+    -t          affiche le temps du triage
+    -f          affiche les listes triées
+"""
+
+if __name__ == '__main__':
+    arg = docopt(tag)
+
+    if arg['-t'] is True:
+        var.time = True
+    if arg['-f'] is True:
+        var.aff = True
+    try:
+        r = read_list(arg["<file>"])
+        A = algo.Algo(r)
+        sort = {
+            "merge": A.merge,
+            "bubble": A.bubble,
+            "quick": A.quick,
+            "select": A.select,
+            "insert": A.insert
+        }
+        if arg["sort"] is True:
+            for e in arg["<name>"]:
+                if e in sort:
+                    sort[e]()
+                else:
+                    print("Unknow sort: ", e)
+            A.rapport(arg["<name>"])
+        else:
+            A.run()
+    except IndexError:
+        print("File not found")
+        exit(1)

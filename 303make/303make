@@ -1,0 +1,56 @@
+#! /usr/bin/python2.7
+# -*- coding: utf-8 -*-
+
+from matrice import draw_matrice, init_matrice
+from utils import read_file, define_rules, print_order, rules_to_exec
+from sys import argv, stderr
+from graph_search import GraphSearch
+from var import args
+
+__author__ = 'nicolas'
+
+
+def search(mk):
+    tmp = mk.copy()
+    for i in tmp:
+        tmp[i] = tmp[i][0]
+    graph = GraphSearch(tmp)
+    l = define_rules(mk, False)
+    k = tmp.keys()
+    k.sort()
+    for u in list(k):
+        if u in l:
+            k.remove(u)
+    ter = []
+    for g in k:
+        for i in l:
+            s = graph.find_all_path(g, i)
+            for m in s:
+                if len(m) > 1:
+                    m.reverse()
+                    ter.append(' -> '.join(o for o in m))
+    return ter
+
+"""
+    makefile : graph du makefile (commandes comprises)
+    A : matrice de lien
+"""
+if __name__ == "__main__":
+    if len(argv) not in args:
+        print >> stderr, "Usage : ./303make <file> [rule]"
+        exit(84)
+    makefile = read_file(argv[1])
+    A = init_matrice(define_rules(makefile), makefile)
+    tre = search(makefile)
+    if len(argv) is args[0]:
+        draw_matrice(A)
+        print_order(tre, beg='\n')
+    else:
+        plo = rules_to_exec(tre, argv[2])
+        if len(plo) is 0:
+            exit(84)
+        for d in plo:
+            if d in makefile.keys():
+                for v in makefile[d][1]:
+                    print v
+

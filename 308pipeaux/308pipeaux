@@ -1,0 +1,41 @@
+#! /usr/bin/python3.4
+
+from sys import argv
+from utils import draw, fxp, tab_gauss, error
+import utils
+from algo import fprime, all_f, loop
+import verbose
+__author__ = 'nicolas'
+
+
+def launch_global(rev=False):
+    verbose.vtab = False
+    verbose.vgauss = False
+    verbose.fxp = False
+    verbose.vallf = False
+    utils.isround = True
+    if rev is True:
+        verbose.vtab ^= True
+        verbose.vgauss ^= True
+        verbose.fxp ^= True
+        verbose.vallf ^= True
+        utils.isround ^= True
+
+if __name__ == "__main__":
+    launch_global()
+    if len(argv) is not 7:
+        error("Wrong number of arguments")
+    tab = []
+    try:
+        tab = list(zip([0, 5, 10, 15, 20], list(map(float, argv[1:6]))))
+        for i in argv[1:]:
+            if float(i) <= 0:
+                error("Parameters can't be negative or equal to zero")
+    except ValueError:
+        error("One of arguments are not a number")
+    fxab, fxabc = fxp(tab)
+    mat, sol = tab_gauss(fxabc)
+    res = fprime(mat, sol)
+    ret = all_f(tab, res, fxab)
+    result = loop(ret, int(argv[-1]))
+    draw(res, result, int(argv[-1]))

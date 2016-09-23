@@ -1,0 +1,22 @@
+#! /usr/bin/python2.7
+# -*- coding: utf-8 -*-
+
+from sys import argv, stderr
+from utils import read_file, write_time, write_weeks, write_planning
+from algo import algo
+
+__author__ = 'nicolas'
+
+if __name__ == "__main__":
+    if len(argv) == 2:
+        ls = ['Ter', 'Fon', 'Cha', 'Mac', 'Cou', 'Ele', 'Plo', 'Cfg', 'Fin']
+        mp = read_file(argv[1])
+        mp['Ter'][0][2] = 2
+        algo(mp, ls)
+        write_weeks(mp, ls)
+        write_time(mp, ls)
+        write_planning(mp, ls)
+    else:
+        st = __file__.split('/')
+        print >> stderr, "Wrong arguments\nUsage : ./" + st[-1] + " <file>"
+        exit(84)

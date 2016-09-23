@@ -1,0 +1,56 @@
+#! /usr/bin/python3.4
+
+from sys import argv, stderr
+from utils import beg, mid, end, init_matrice, draw_matrice
+from algo import algo, matRev, have_negatif
+
+test = [[1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 8],
+        [3, 2, 0, 1, 0, 0, 0, 0, 0, 0, 12],
+        [-2, -3, 0, 0, 0, 0, 0, 0, 0, 1, 0]]
+
+
+if __name__ == "__main__":
+    if len(argv) is not 10:
+        print("Wrong number of arguments", file=stderr)
+        exit(84)
+    en = []
+    pr = []
+    try:
+        en = [int(argv[j]) for j in range(1, 5)]
+        pr = [int(argv[j]) for j in range(5, 10)]
+    except ValueError:
+        print("All values are not numbers", file=stderr)
+        exit(84)
+    init_matrice(en, pr)
+    draw_matrice()
+    beg(en)
+    l = []
+    # matRev.clear()
+    # matRev.extend(test)
+    # print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
+    # draw_matrice()
+    # l = algo()
+    # print("==========================")
+    # draw_matrice()
+    # print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    # print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
+    # draw_matrice()
+    # l = algo(0)
+    # print("==========================")
+    # draw_matrice()
+    # print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+    while have_negatif() is True:
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>")
+        draw_matrice()
+        l = algo()
+        print("==========================")
+        draw_matrice()
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
+    mid(l, pr)
+    total = 0.0
+    for i in range(0, len(l)):
+        total += l[i] * pr[i]
+    end(total)
+    draw_matrice()

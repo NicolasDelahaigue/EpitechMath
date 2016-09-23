@@ -1,0 +1,10 @@
+Ing;reunion des ingredients;7
+Ech;couper les echalottes;4;Ing
+Sau;cuire;5;Ech;Ing
+Oig;couper oignon;4;Ing
+Des;cuire des;10;Oig;Ing
+Ste;cuir steck;12;Ing
+Hau;etaler moutard;1;Ing
+Bas;etaler sauce;2;Sau
+Ham;steak oignon;2;Des;Ste;Bas;Hau
+Fon;cheese four;1;Ham

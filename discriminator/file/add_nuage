@@ -1,0 +1,20 @@
+#! /usr/bin/python3.4
+
+__author__ = 'nicolas'
+
+from sys import stdin, argv
+from subprocess import call
+
+def usage():
+    print("./add_nuage <densité> <x> <y> <rayon>")
+
+if __name__ == "__main__":
+    if len(argv) is not 5:
+        usage()
+    else:
+        rayon = int(argv[4])
+        x = int(argv[2])
+        y = int(argv[3])
+        density = float(argv[1])
+        call(["./gen_square.py", str(int(density * rayon * rayon * 4)), str(x - rayon), str(y - rayon), str(x + rayon), str(y + rayon)])
+        

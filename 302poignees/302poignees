@@ -1,0 +1,41 @@
+#! /usr/bin/python2.7
+# -*- coding: utf-8 -*-
+
+__author__ = 'kevin'
+
+from sys import stderr, argv
+import define as d
+from utils import create_list, create_link, read_file, draw_matrice, link_person
+from matrice import prod_mat, clean_dia, calc_mat, bilan_mat
+
+
+def start(av):
+    file = read_file(av[1])
+    if not file:
+        print >> stderr, "File empty"
+        exit(84)
+    liyist = create_list(file)
+    A = create_link(file, liyist)
+    if len(av) is 3:
+        try:
+            int(av[2])
+            print '\n'.join(liyist)
+            draw_matrice(A)
+            LM = calc_mat(A, int(av[2]))
+            C = bilan_mat(LM)
+            C = clean_dia(C)
+            draw_matrice(C)
+        except ValueError as e:
+            print >> stderr, e
+            exit(84)
+    else:
+        link_person([av[2], av[3]], liyist, A)
+
+
+if __name__ == "__main__":
+    nb = len(argv)
+    if nb in d.nb_parma:
+        start(argv)
+    else:
+        print d.usage
+        exit(84)

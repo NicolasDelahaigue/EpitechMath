@@ -1,0 +1,19 @@
+#! /usr/bin/python2.7
+# -*- coding: utf-8 -*-
+
+from utils import read_file, draw_map, check_map
+from sys import argv, stderr
+from algo import algo
+
+__author__ = 'nicolas'
+
+if __name__ == "__main__":
+    if len(argv) == 4:
+        mp = read_file(argv[1])
+        check_map(mp)
+        m = algo(mp)
+        draw_map(m, argv[2], argv[3], True)
+    else:
+        st = __file__.split('/')
+        print >> stderr, "Wrong arguments\nUsage : ./" + st[-1] + " <file> <wall char> <void char>"
+        exit(84)

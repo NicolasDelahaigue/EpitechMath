@@ -1,0 +1,35 @@
+#! /usr/bin/python2.7
+# -*- coding: utf-8 -*-
+
+__author__ = 'kevin et nicolas <3'
+
+import sys
+import algo
+from decimal import Decimal
+
+
+def read_list(file):
+    try:
+        ret = []
+        with open(file) as data:
+            for d in data:
+                for e in d.split(' '):
+                    if len(e) > 0:
+                        try:
+                            ret.append(Decimal(e))
+                        except:
+                            pass
+        return ret
+    except Exception as ex:
+        print >> sys.stderr, ex.args
+        exit(1)
+
+
+r = None
+try:
+    r = read_list(sys.argv[1])
+    A = algo.Algo(r)
+    A.run()
+except IndexError:
+    print >> sys.stderr, "File not found"
+    exit(1)
